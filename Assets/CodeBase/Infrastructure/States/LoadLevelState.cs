@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using CodeBase.CameraLogic;
+using CodeBase.Hero;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Service.PersistentProgress;
 using CodeBase.Infrastructure.Service.SaveLoad;
 using CodeBase.Logic;
+using CodeBase.UI;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure.States
@@ -68,21 +71,30 @@ namespace CodeBase.Infrastructure.States
 
         private void InitGameWorld()
         {
-            var initialPoint = Object.FindObjectOfType<PlayerInitialPoint>();
-            
-            var saveTriggers = Object.FindObjectsOfType<SaveTrigger>().ToList();
-            
+            InitHero(out PlayerInitialPoint initialPoint, out List<SaveTrigger> saveTriggers, out GameObject hero);
+            InitHud(hero);
+        }
+
+        private void InitHero(out PlayerInitialPoint initialPoint, out List<SaveTrigger> saveTriggers, out GameObject hero)
+        {
+            initialPoint = Object.FindObjectOfType<PlayerInitialPoint>();
+            saveTriggers = Object.FindObjectsOfType<SaveTrigger>().ToList();
             saveTriggers.ForEach(triggers => triggers.Init(_saveLoadService));
-            
-            GameObject hero = _heroFactory.Create(initialPoint.gameObject.transform);
-            
+            hero = _heroFactory.Create(initialPoint.gameObject.transform);
+
             _repositorySaveLoadComponent.AddGameObject(hero);
-            
-            _hudFactory.Create();
-            
+
             CameraFollow(hero);
-            
+
             hero.SetActive(true);
+        }
+
+        private void InitHud(GameObject hero)
+        {
+            GameObject hud = _hudFactory.Create();
+
+            hud.GetComponentInChildren<ActorUI>()
+                .Construct(hero.GetComponent<HeroHealth>());
         }
 
         private void CameraFollow(GameObject hero)

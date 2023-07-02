@@ -5,9 +5,9 @@ namespace CodeBase.Infrastructure.Factory
 {
     public class HudFactory
     {
-        public void Create()
+        public GameObject Create()
         {
-            Object.Instantiate(Resources.Load<GameObject>(AssetPath.HudPath));
+            return Object.Instantiate(Resources.Load<GameObject>(AssetPath.HudPath));
         }
     }
 }

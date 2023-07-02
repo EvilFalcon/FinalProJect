@@ -27,16 +27,23 @@ namespace CodeBase.Infrastructure.States
 
         public void Enter()
         {
-            LoadProgressOrInitNew();
+            LoadProgressOrInit();
             _gameStateMachine.Enter<LoadLevelState, string>(_progress.PlayerProgress.WorldData.PlayerPositionOnLevel.Lavel);
         }
 
-        private void LoadProgressOrInitNew()
+        private void LoadProgressOrInit()
         {
             _progress.PlayerProgress = _saveLoadedProgress.LoadProgress() ?? CreateProgress();
         }
 
-        private PlayerProgress CreateProgress() =>
-            new PlayerProgress(Constants.InitialLevel);
+        private PlayerProgress CreateProgress()
+        {
+            PlayerProgress progress = new PlayerProgress(Constants.InitialLevel);
+            progress.HeroState.MaxHP = 50;
+            progress.HeroStats.Damage = 1;
+            progress.HeroStats.DamageRadius = 0.5f;
+            progress.HeroState.ResetHp();
+            return progress;
+        }
     }
 }

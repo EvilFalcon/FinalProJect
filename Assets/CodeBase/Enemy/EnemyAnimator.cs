@@ -7,11 +7,11 @@ namespace CodeBase.Enemy
     [RequireComponent(typeof(Animator))]
     public class EnemyAnimator : MonoBehaviour, IAnimationStateReader
     {
-        private static readonly int s_attack = Animator.StringToHash("Attack_1");
-        private static readonly int s_speed = Animator.StringToHash("Speed");
-        private static readonly int s_isMoving = Animator.StringToHash("IsMoving");
-        private static readonly int s_hit = Animator.StringToHash("Hit");
-        private static readonly int s_die = Animator.StringToHash("Die");
+        private readonly int _attack = Animator.StringToHash("Attack_1");
+        private readonly int _speed = Animator.StringToHash("Speed");
+        private readonly int _isMoving = Animator.StringToHash("IsMoving");
+        private readonly int _hit = Animator.StringToHash("Hit");
+        private readonly int _die = Animator.StringToHash("Die");
 
         private readonly int _idleStateHash = Animator.StringToHash("idle");
         private readonly int _attackStateHash = Animator.StringToHash("attack01");
@@ -19,7 +19,7 @@ namespace CodeBase.Enemy
         private readonly int _deathStateHash = Animator.StringToHash("die");
 
         private Animator _animator;
-        private Logic.AnimatorState _state;
+        private AnimatorState _state;
 
         public event Action<AnimatorState> StateEntered;
         public event Action<AnimatorState> StateExited;
@@ -27,7 +27,7 @@ namespace CodeBase.Enemy
         public void ExitedState(int stateHash) =>
             StateExited?.Invoke(State);
 
-        Logic.AnimatorState IAnimationStateReader.State => _state;
+        AnimatorState IAnimationStateReader.State => _state;
 
         public AnimatorState State { get; private set; }
 
@@ -35,22 +35,22 @@ namespace CodeBase.Enemy
             _animator = GetComponent<Animator>();
 
         public void PlayHit() =>
-            _animator.SetTrigger(s_hit);
+            _animator.SetTrigger(_hit);
 
         public void PlayDeath() =>
-            _animator.SetTrigger(s_die);
+            _animator.SetTrigger(_die);
 
         public void Move(float speed)
         {
-            _animator.SetBool(s_isMoving, true);
-            _animator.SetFloat(s_speed, speed);
+            _animator.SetBool(_isMoving, true);
+            _animator.SetFloat(_speed, speed);
         }
 
         public void StopMoving() =>
-            _animator.SetBool(s_isMoving, false);
+            _animator.SetBool(_isMoving, false);
 
         public void PlayAttack() =>
-            _animator.SetTrigger(s_attack);
+            _animator.SetTrigger(_attack);
 
         public void EnteredState(int stateHash)
         {

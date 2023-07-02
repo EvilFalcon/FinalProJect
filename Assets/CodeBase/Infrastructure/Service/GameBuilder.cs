@@ -2,6 +2,8 @@
 using CodeBase.Infrastructure.Service.SaveLoad;
 using CodeBase.Infrastructure.States;
 using CodeBase.Logic;
+using CodeBase.Services.Input;
+using UnityEngine;
 
 namespace CodeBase.Infrastructure.Service
 {
@@ -17,12 +19,12 @@ namespace CodeBase.Infrastructure.Service
         public Game Bild()
         {
             LoadingCurtainFactory curtainFactory = new LoadingCurtainFactory();
-            HeroFactory heroFactory = new HeroFactory();
+            HeroInputService heroInputService = new HeroInputService();
+            HeroFactory heroFactory = new HeroFactory(heroInputService);
             HudFactory hudFactory = new HudFactory();
 
             PersistentProgress.PersistentProgress persistentProgress = new PersistentProgress.PersistentProgress();
             RepositorySaveLoadComponent repositorySaveLoadComponent = new RepositorySaveLoadComponent();
-
             SceneLoader sceneLoader = new SceneLoader(_coroutineRunner);
 
             LoadingCurtain curtain = curtainFactory.Create();

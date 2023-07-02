@@ -15,11 +15,6 @@ namespace CodeBase.Hero
         private Camera _camera;
         private bool _isActiv;
 
-        private void Awake()
-        {
-            _inputService = GetInputService();
-        }
-
         private void Start() =>
             _camera = Camera.main;
 
@@ -39,15 +34,6 @@ namespace CodeBase.Hero
             movementVector += Physics.gravity;
 
             _characterController.Move(movementVector * (_movementSpeed * Time.deltaTime));
-        }
-
-        private IInputService GetInputService()
-        {
-            Debug.Log(Application.isEditor);
-            if (Application.isEditor)
-                return new MobileInputService();
-            
-            return new StandaloneInputService();
         }
 
         public void UpdateProgress(PlayerProgress playerProgress) =>
@@ -72,6 +58,9 @@ namespace CodeBase.Hero
             transform.position = savedPosition.AnUnityVector().Addy(_characterController.height);
             _characterController.enabled = true;
         }
+
+        public void Construct(IInputService inputService) =>
+            _inputService = inputService;
 
         private string CerentLevel() =>
             SceneManager.GetActiveScene().name;
