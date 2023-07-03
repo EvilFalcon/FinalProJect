@@ -9,4 +9,9 @@ namespace CodeBase.Logic
         float Max { get; }
         void TakeDamage(float damage);
     }
+
+    interface IEnemyHealth : IHealth
+    {
+        void SetValue(float value);
+    }
 }

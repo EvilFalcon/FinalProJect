@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace CodeBase.Enemy
 {
-    public class EnemyHealth : MonoBehaviour, IHealth
+    public class EnemyHealth : MonoBehaviour, IEnemyHealth
     {
         [SerializeField] private EnemyAnimator _animator;
-        [SerializeField] private float _current;
-        [SerializeField] private float _max;
+         private float _current;
+         private float _max;
         public float Current => _current;
         public float Max => _max;
 
@@ -19,6 +19,12 @@ namespace CodeBase.Enemy
             _current -= damage;
             _animator.PlayHit();
             HealthChanged?.Invoke();
+        }
+
+        public void SetValue(float value)
+        {
+            _max = value;
+            _current = _max;
         }
     }
 }

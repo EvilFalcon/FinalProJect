@@ -4,6 +4,7 @@ using CodeBase.Infrastructure.Service.PersistentProgress;
 using CodeBase.Infrastructure.Service.SaveLoad;
 using CodeBase.Infrastructure.States;
 using CodeBase.Logic;
+using CodeBase.StaticData;
 
 namespace CodeBase.Infrastructure.Factory
 {
@@ -16,6 +17,7 @@ namespace CodeBase.Infrastructure.Factory
         private readonly IPersistentProgressService _persistentProgress;
         private readonly SaveLoadService _saveLoadService;
         private readonly RepositorySaveLoadComponent _repositorySaveLoadComponent;
+        private readonly MonsterFactory _monsterFactory;
 
         public StateFactory(SceneLoader sceneLoader,
             LoadingCurtain curtain,
@@ -23,8 +25,8 @@ namespace CodeBase.Infrastructure.Factory
             HudFactory hudFactory,
             IPersistentProgressService persistentProgress,
             SaveLoadService saveLoadService,
-            RepositorySaveLoadComponent repositorySaveLoadComponent
-        )
+            RepositorySaveLoadComponent repositorySaveLoadComponent,
+            MonsterFactory monsterFactory)
         {
             _sceneLoader = sceneLoader;
             _curtain = curtain;
@@ -33,6 +35,7 @@ namespace CodeBase.Infrastructure.Factory
             _persistentProgress = persistentProgress;
             _saveLoadService = saveLoadService;
             _repositorySaveLoadComponent = repositorySaveLoadComponent;
+            _monsterFactory = monsterFactory;
         }
 
         public Dictionary<Type, IExitableState> Create(GameStateMachine gameStateMachine)
@@ -50,7 +53,8 @@ namespace CodeBase.Infrastructure.Factory
                     _hudFactory,
                     _repositorySaveLoadComponent,
                     _persistentProgress,
-                    _saveLoadService),
+                    _saveLoadService,
+                    _monsterFactory),
                 [typeof(GameLoopState)] = new GameLoopState(
                     gameStateMachine),
                 [typeof(LoadProgresState)] = new LoadProgresState(

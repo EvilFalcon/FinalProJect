@@ -13,12 +13,6 @@ namespace CodeBase.Enemy
         private Transform _transform;
         private Vector3 _spawnPoint;
 
-        private void Awake()
-        {
-            _agent = GetComponent<NavMeshAgent>();
-            _spawnPoint = transform.position;
-        }
-
         private void Update()
         {
             HeroNotReached();
@@ -26,9 +20,11 @@ namespace CodeBase.Enemy
 
         private void HeroNotReached()
         {
-            if (_transform != null)
-                if (Vector3.Distance(_agent.transform.position, _transform.position) >= MinimalDistance)
-                    _agent.destination = _transform.position;
+            if (_transform == null)
+                return;
+
+            if (Vector3.Distance(_agent.transform.position, _transform.position) >= MinimalDistance)
+                _agent.destination = _transform.position;
         }
 
         public override void InitializeHeroTransform(Transform heroTransform)
@@ -37,6 +33,12 @@ namespace CodeBase.Enemy
 
             if (heroTransform == null)
                 _agent.destination = _spawnPoint;
+        }
+
+        public void Construct(NavMeshAgent navMeshAgent)
+        {
+            _agent = navMeshAgent;
+            _spawnPoint = transform.position;
         }
     }
 }

@@ -4,22 +4,22 @@ namespace CodeBase.Enemy
 {
     [RequireComponent(typeof(Attack))]
     public class CheckAttackRange : MonoBehaviour
-    {
+    { 
         [SerializeField] private TriggerObserver _triggerObserver;
         private Attack _attack;
 
-        private void Awake()
-        {
-            _attack = GetComponent<Attack>();
-        }
-
         private void Start()
         {
+            _attack.Disable();
             _triggerObserver.TriggerEnter += TriggerEnter;
             _triggerObserver.TriggerExit += TriggerExit;
-            _attack.Disable();
         }
 
+        public void Constructor(Attack attack)
+        {
+            _attack = attack;
+        }
+        
         private void TriggerExit(global::Hero @object)
         {
             _attack.Disable();
@@ -28,7 +28,6 @@ namespace CodeBase.Enemy
         private void TriggerEnter(global::Hero @object)
         {
             _attack.Enable();
-            _attack.Constructor(@object.transform);
         }
     }
 }

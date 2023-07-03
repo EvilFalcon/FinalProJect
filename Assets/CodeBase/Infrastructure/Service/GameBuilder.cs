@@ -3,6 +3,7 @@ using CodeBase.Infrastructure.Service.SaveLoad;
 using CodeBase.Infrastructure.States;
 using CodeBase.Logic;
 using CodeBase.Services.Input;
+using CodeBase.StaticData;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure.Service
@@ -29,7 +30,9 @@ namespace CodeBase.Infrastructure.Service
 
             LoadingCurtain curtain = curtainFactory.Create();
             SaveLoadService saveLoadService = new SaveLoadService(persistentProgress, repositorySaveLoadComponent);
-            StateFactory stateFactory = new StateFactory(sceneLoader, curtain, heroFactory, hudFactory, persistentProgress, saveLoadService, repositorySaveLoadComponent);
+            StaticDataService staticDataService = new StaticDataService();
+            MonsterFactory monsterFactory = new MonsterFactory(staticDataService, heroFactory);
+            StateFactory stateFactory = new StateFactory(sceneLoader, curtain, heroFactory, hudFactory, persistentProgress, saveLoadService, repositorySaveLoadComponent,monsterFactory);
             StateMachineFactory stateMachineFactory = new StateMachineFactory(stateFactory);
 
             GameStateMachine stateMachine = stateMachineFactory.Create();

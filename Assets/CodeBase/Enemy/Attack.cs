@@ -7,10 +7,11 @@ namespace CodeBase.Enemy
     [RequireComponent(typeof(EnemyAnimator))]
     public class Attack : MonoBehaviour
     {
-        [SerializeField] private float _cleavage;
         [SerializeField] private float _cooldown;
-        [SerializeField] private float _effectiveDistance = 0.5f;
-        [SerializeField] private float _damage = 10;
+
+        private float _cleavage;
+        private float _effectiveDistance = 0.5f;
+        private float _damage = 10;
 
         private Transform _heroTransform;
         private EnemyAnimator _animator;
@@ -22,7 +23,6 @@ namespace CodeBase.Enemy
 
         private void Awake()
         {
-            _animator = GetComponent<EnemyAnimator>();
             _layerMask = 1 << LayerMask.NameToLayer("Player");
         }
 
@@ -42,24 +42,22 @@ namespace CodeBase.Enemy
         private void OnAttack()
         {
             if (Hit(out Collider hit))
-            {
                 hit.transform.GetComponent<IHealth>().TakeDamage(_damage);
-            }
         }
 
-        public void Disable()
-        {
+        public void Disable() =>
             _attackIsActive = false;
-        }
 
-        public void Enable()
-        {
+        public void Enable() =>
             _attackIsActive = true;
-        }
 
-        public void Constructor(Transform heroTransform)
+        public void Constructor(EnemyAnimator animator,Transform heroTransform, float cleavage, float damage, float effectiveDistance)
         {
+            _animator = animator;
             _heroTransform = heroTransform;
+            _cleavage = cleavage;
+            _damage = damage;
+            _effectiveDistance = effectiveDistance;
         }
 
         private bool Hit(out Collider hit)

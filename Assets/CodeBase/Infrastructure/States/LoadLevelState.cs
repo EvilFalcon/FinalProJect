@@ -21,6 +21,7 @@ namespace CodeBase.Infrastructure.States
         private readonly RepositorySaveLoadComponent _repositorySaveLoadComponent;
         private readonly IPersistentProgressService _persistentProgress;
         private readonly SaveLoadService _saveLoadService;
+        private readonly MonsterFactory _monsterFactory;
 
         public LoadLevelState(
             GameStateMachine gameStateMachine,
@@ -29,7 +30,8 @@ namespace CodeBase.Infrastructure.States
             HeroFactory heroFactory,
             HudFactory hudFactory,
             RepositorySaveLoadComponent repositorySaveLoadComponent,
-            IPersistentProgressService persistentProgress, SaveLoadService saveLoadService
+            IPersistentProgressService persistentProgress, SaveLoadService saveLoadService,
+            MonsterFactory monsterFactory
         )
         {
             _stateMachine = gameStateMachine;
@@ -40,6 +42,7 @@ namespace CodeBase.Infrastructure.States
             _repositorySaveLoadComponent = repositorySaveLoadComponent;
             _persistentProgress = persistentProgress;
             _saveLoadService = saveLoadService;
+            _monsterFactory = monsterFactory;
         }
 
         public void Enter(string sceneName)
@@ -73,6 +76,17 @@ namespace CodeBase.Infrastructure.States
         {
             InitHero(out PlayerInitialPoint initialPoint, out List<SaveTrigger> saveTriggers, out GameObject hero);
             InitHud(hero);
+            InitSpawners();
+        }
+
+        private void InitSpawners()
+        {
+            foreach (EnemySpawner spawnerObject in Object.FindObjectsOfType<EnemySpawner>())
+            {
+                spawnerObject.Construct(_monsterFactory);
+                GameObject spawner = spawnerObject.gameObject;
+                _repositorySaveLoadComponent.AddGameObject(spawner);
+            }
         }
 
         private void InitHero(out PlayerInitialPoint initialPoint, out List<SaveTrigger> saveTriggers, out GameObject hero)
