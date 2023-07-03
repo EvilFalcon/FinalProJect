@@ -1,6 +1,6 @@
-﻿using System;
-using CodeBase.Data;
+﻿using CodeBase.Data;
 using CodeBase.Enemy;
+using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Service.PersistentProgress;
 using CodeBase.StaticData;
 using UnityEngine;
@@ -12,7 +12,7 @@ namespace CodeBase.Logic
         [SerializeField] private MonsterTypeId _monsterType;
         private string _id;
         private bool _slain;
-        private MonsterFactory _facotry;
+        private MonsterFactory _factory;
         private EnemyDeath _enemy;
 
         private void Awake()
@@ -32,12 +32,12 @@ namespace CodeBase.Logic
 
         public void Construct(MonsterFactory factory)
         {
-            _facotry = factory;
+            _factory = factory;
         }
 
         private void Spawn()
         {
-            GameObject monster = _facotry.Create(_monsterType, transform);
+            GameObject monster = _factory.Create(_monsterType, transform);
             _enemy = monster.GetComponent<EnemyDeath>();
             _enemy.Happend += Slay;
         }

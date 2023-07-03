@@ -13,7 +13,7 @@ namespace CodeBase.StaticData
             LoadMonsters();
         }
 
-        public void LoadMonsters()
+        private void LoadMonsters()
         {
             _monsters = Resources.LoadAll<MonsterStaticData>(nameof(StaticData) + "/Monsters")
                 .ToDictionary(x => x.MonsterTypeId, x => x);

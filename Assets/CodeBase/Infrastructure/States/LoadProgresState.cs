@@ -28,7 +28,7 @@ namespace CodeBase.Infrastructure.States
         public void Enter()
         {
             LoadProgressOrInit();
-            _gameStateMachine.Enter<LoadLevelState, string>(_progress.PlayerProgress.WorldData.PlayerPositionOnLevel.Lavel);
+            _gameStateMachine.Enter<LoadLevelState, string>(_progress.PlayerProgress.WorldData.PlayerPositionOnLevel._level);
         }
 
         private void LoadProgressOrInit()

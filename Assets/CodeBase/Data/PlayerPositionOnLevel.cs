@@ -1,22 +1,23 @@
 ﻿using System;
+using UnityEngine.Serialization;
 
 namespace CodeBase.Data
 {
     [Serializable]
     public class PlayerPositionOnLevel
     {
-        public string Lavel;
+        [FormerlySerializedAs("Lavel")] public string _level;
         public Vector3Data PlayerPosition;
 
-        public PlayerPositionOnLevel(string lavel, Vector3Data vector3Data)
+        public PlayerPositionOnLevel(string level, Vector3Data vector3Data)
         {
-            Lavel = lavel;
+            _level = level;
             PlayerPosition = vector3Data;
         }
 
-        public PlayerPositionOnLevel(string lavel)
+        public PlayerPositionOnLevel(string level)
         {
-            Lavel = lavel;
+            _level = level;
         }
     }
 }

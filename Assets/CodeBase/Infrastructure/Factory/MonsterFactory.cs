@@ -1,11 +1,11 @@
 ﻿using CodeBase.Enemy;
-using CodeBase.Infrastructure.Factory;
+using CodeBase.Logic;
 using CodeBase.StaticData;
 using CodeBase.UI;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace CodeBase.Logic
+namespace CodeBase.Infrastructure.Factory
 {
     public class MonsterFactory
     {
@@ -34,7 +34,7 @@ namespace CodeBase.Logic
             navMeshAgent.speed = monsterData.MoveSpeed;
             Attack enemyAttack = monster.GetComponent<Attack>();
             enemyAttack.Constructor(enemyAnimator, heroTransform.Transform, monsterData.Cleavage, monsterData.Damage, monsterData.EffectiveDistance);
-            CheckAttackRange attackRange = monster.GetComponent<CheckAttackRange>();
+            ProviderAttackRange attackRange = monster.GetComponent<ProviderAttackRange>();
             attackRange.Constructor(enemyAttack);
 
             return monster;

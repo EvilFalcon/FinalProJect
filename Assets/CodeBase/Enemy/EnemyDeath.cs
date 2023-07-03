@@ -37,6 +37,7 @@ namespace CodeBase.Enemy
             _animator.PlayDeath();
             SpawnDeathFx();
             _coroutine = StartCoroutine(DestroyTimer());
+            Happend?.Invoke();
         }
 
         private void SpawnDeathFx()

@@ -26,7 +26,7 @@ namespace Editor
 
         private void Genirate(UniqueId uniqueId)
         {
-            uniqueId.Id =  $"{uniqueId.gameObject.scene.name}{Guid.NewGuid().ToString()}";
+            uniqueId.Id = $"{uniqueId.gameObject.scene.name}{Guid.NewGuid().ToString()}";
 
             if (Application.isPlaying == false)
             {

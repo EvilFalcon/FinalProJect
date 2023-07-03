@@ -41,7 +41,7 @@ namespace CodeBase.Hero
 
         public void LoadProgres(PlayerProgress playerProgress)
         {
-            if (CerentLevel() == playerProgress.WorldData.PlayerPositionOnLevel.Lavel)
+            if (CerentLevel() == playerProgress.WorldData.PlayerPositionOnLevel._level)
             {
                 Vector3Data savedPosition = playerProgress.WorldData.PlayerPositionOnLevel.PlayerPosition;
 

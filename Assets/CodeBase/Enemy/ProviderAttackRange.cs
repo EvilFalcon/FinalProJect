@@ -3,7 +3,7 @@
 namespace CodeBase.Enemy
 {
     [RequireComponent(typeof(Attack))]
-    public class CheckAttackRange : MonoBehaviour
+    public class ProviderAttackRange : MonoBehaviour
     { 
         [SerializeField] private TriggerObserver _triggerObserver;
         private Attack _attack;
