@@ -33,6 +33,6 @@ namespace CodeBase.UI
         }
 
         private void UpdateHpBar() =>
-            _hpBarView.SetValue(_health.Current/ _health.Max);
+            _hpBarView.SetValue(_health.Current / _health.Max);
     }
 }

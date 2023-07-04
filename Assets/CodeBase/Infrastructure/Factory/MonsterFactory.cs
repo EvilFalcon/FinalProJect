@@ -20,7 +20,7 @@ namespace CodeBase.Infrastructure.Factory
 
         public GameObject Create(MonsterTypeId monsterType, Transform transform)
         {
-            IHeroTransform heroTransform = _heroFactory.Instantiate.GetComponent<IHeroTransform>();
+            IHeroTransform heroTransform = _heroFactory.Instantiate;
 
             MonsterStaticData monsterData = _staticData.ForMonster(monsterType);
             GameObject monster = Object.Instantiate(monsterData.Prefab, transform.position, Quaternion.identity, transform);
